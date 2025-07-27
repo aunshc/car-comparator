@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Comparator - Compare Your Dream Cars</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-car"></i> Car Comparator</h1>
+            <p>Compare cars side by side to make the best decision</p>
+        </header>
+
+        <div class="comparison-container">
+            <div class="car-card" id="car1">
+                <div class="car-header">
+                    <h3>Car 1</h3>
+                    <button class="add-car-btn" onclick="addCar(1)">
+                        <i class="fas fa-plus"></i> Add Car
+                    </button>
+                </div>
+                <div class="car-content" id="car1-content">
+                    <div class="placeholder">
+                        <i class="fas fa-car-side"></i>
+                        <p>Select a car to compare</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vs-section">
+                <div class="vs-circle">
+                    <span>VS</span>
+                </div>
+            </div>
+
+            <div class="car-card" id="car2">
+                <div class="car-header">
+                    <h3>Car 2</h3>
+                    <button class="add-car-btn" onclick="addCar(2)">
+                        <i class="fas fa-plus"></i> Add Car
+                    </button>
+                </div>
+                <div class="car-content" id="car2-content">
+                    <div class="placeholder">
+                        <i class="fas fa-car-side"></i>
+                        <p>Select a car to compare</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison-results" id="comparison-results" style="display: none;">
+            <h2>Comparison Results</h2>
+            <div class="results-grid" id="results-grid"></div>
+        </div>
+
+        <!-- Car Selection Modal -->
+        <div class="modal" id="carModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Select a Car</h2>
+                    <span class="close" onclick="closeModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="search-section">
+                        <input type="text" id="carSearch" placeholder="Search cars..." onkeyup="filterCars()">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
+                            <button class="filter-btn" onclick="filterByCategory('sedan')">Sedan</button>
+                            <button class="filter-btn" onclick="filterByCategory('suv')">SUV</button>
+                            <button class="filter-btn" onclick="filterByCategory('sports')">Sports</button>
+                            <button class="filter-btn" onclick="filterByCategory('electric')">Electric</button>
+                        </div>
+                        <div class="search-results" id="searchResults"></div>
+                        <button class="add-custom-car-btn" onclick="showCustomCarModal()">
+                            <i class="fas fa-plus-circle"></i> Add Custom Car
+                        </button>
+                    </div>
+                    <div class="cars-grid" id="carsGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Car Modal -->
+        <div class="modal" id="customCarModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add Custom Car</h2>
+                    <span class="close" onclick="closeCustomCarModal()">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="customCarForm" onsubmit="addCustomCar(event)">
+                        <div class="form-group">
+                            <label for="customCarName">Car Name *</label>
+                            <input type="text" id="customCarName" required placeholder="e.g., Tesla Model S">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customCarCategory">Category *</label>
+                            <select id="customCarCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="sports">Sports</option>
+                                <option value="electric">Electric</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customCarPrice">Price ($) *</label>
+                                <input type="number" id="customCarPrice" required min="0" placeholder="50000">
+                            </div>
+                            <div class="form-group">
+                                <label for="customCarRange">Range (miles) *</label>
+                                <input type="number" id="customCarRange" required min="0" placeholder="300">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customCarAcceleration">0-60 mph (seconds) *</label>
+                                <input type="number" id="customCarAcceleration" required min="0" step="0.1" placeholder="5.0">
+                            </div>
+                            <div class="form-group">
+                                <label for="customCarTopSpeed">Top Speed (mph) *</label>
+                                <input type="number" id="customCarTopSpeed" required min="0" placeholder="155">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customCarPower">Power (hp) *</label>
+                                <input type="number" id="customCarPower" required min="0" placeholder="250">
+                            </div>
+                            <div class="form-group">
+                                <label for="customCarEfficiency">Efficiency (L/100km) *</label>
+                                <input type="number" id="customCarEfficiency" required min="0" step="0.1" placeholder="7.0">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="customCarImage">Image URL (optional)</label>
+                            <input type="url" id="customCarImage" placeholder="https://example.com/car-image.jpg">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="closeCustomCarModal()">Cancel</button>
+                            <button type="submit" class="btn-primary">Add Car</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

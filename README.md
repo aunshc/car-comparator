@@ -1,6 +1,9 @@
 # Car Comparator Webapp
 
 A modern, responsive web application for comparing cars side by side. Built with HTML, CSS, and JavaScript, featuring a beautiful UI and comprehensive car comparison functionality.
+<img width="1493" height="770" alt="Screenshot 2025-08-09 at 12 23 12 PM" src="https://github.com/user-attachments/assets/1035d572-33b0-4261-8c37-9b8f1fc0dc05" />
+
+
 
 ## Features
 
